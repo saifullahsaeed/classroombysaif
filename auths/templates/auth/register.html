@@ -1,0 +1,97 @@
+{% extends 'auth/base.html' %}
+{% load static %}
+{% block title_login %}Register ~Classroom{% endblock title_login %}
+{% block styles %}
+	<link rel="stylesheet" type="text/css" href=" {% static 'auth/register/css/main.css' %}">
+	<link rel="stylesheet" type="text/css" href=" {% static 'auth/register/css/util.css' %}">
+{% endblock styles %}
+{% block main %}
+<style>
+#error{
+	color:red;
+	font-size:.8em;
+}
+#message{
+	height:3%;
+	background-color:rgb(129, 255, 121);
+	width:100%;
+	text-align:center;
+	padding:5px;
+	border-width:2px;
+	border-style:solid;
+	border-color:#000000;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	
+	
+}
+#message p{
+	font-size:0.8em;
+}
+</style>
+<body style="background-color: #999999;">
+<!---http://127.0.0.1:8000/auth/register/?usr_name=sa&usr_email=saifullahsaeed05%40gmail.com&usr_username=a&usr_password=EpwHeigWdc8q475&repeat=EpwHeigWdc8q475&remember-me=on	-->
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="login100-more" style="background-image: url('{% static 'auth/register/images/bg-01.jpg' %}');"></div>
+
+			<div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
+				<form method="post" action="{% url 'register' %}" class="login100-form validate-form" novalidate role="form">
+					{% csrf_token %}
+					<span class="login100-form-title p-b-59">
+						Sign Up
+					</span>
+					{% if messages %}
+					<div id="message">
+						{% for message in messages %}
+						{% if message.tags %}
+							<h4>{{message.tags}}</h4>
+						{% endif %}
+							<p>{{message}}</p>
+						{% endfor %}
+						</div>
+					{% endif %}
+					{% for fm in form %}
+					<div class="wrap-input100 validate-input" data-validate="Name Required">
+						<span class="label-input100">{{fm.label_tag}} <li id="error">{{fm.errors|striptags}}</li></span>
+					{{fm}}
+					<span class="focus-input100"></span>
+					</div>
+					{% endfor %}
+
+					<div class="flex-m w-full p-b-33">
+						<div class="contact100-form-checkbox">
+							{{form.check}}
+							<label class="label-checkbox100" for="ckb1">
+								<span class="txt1">
+									I agree to the
+									<a href="#" class="txt2 hov1">
+										Terms of User
+									</a>
+								</span>
+							</label>
+						</div>
+
+						
+					</div>
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								Sign Up
+							</button>
+						</div>
+
+						<a href="/auth/login/" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
+							Sign in
+							<i class="fa fa-long-arrow-right m-l-5"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+{% endblock main %}

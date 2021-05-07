@@ -1,0 +1,90 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block title %}{{class.class_name}} ~ Announcements{% endblock title %}
+{% block main %}
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        {% include "dashboard/header.html" %}
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+        {% include "dashboard/sidebar_class.html" %}
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+
+            <!-- HEADER DESKTOP-->
+         {% include "dashboard/header_desktop.html" %}
+            
+            <!-- HEADER DESKTOP-->
+            <div class="main-content pl-5 pr-5" style="background-color:#f2f2f2;">
+                <div class="row">
+                <div class="col-lg-12">
+                    <div class="au-card au-card--no-shadow au-card--no-pad m-b-30">
+                        <div class="au-card-title" style="background-image:url('images/bg-title-01.jpg');">
+                            <div class="bg-overlay bg-overlay--blue"></div>
+                            <h3>Class Announcements</h3>
+                            <button class="au-btn-plus">
+                                <i class="zmdi zmdi-plus"></i>
+                            </button>
+                        </div>
+                        <div class="au-task js-list-load">
+                            <div class="au-task__title">
+                                <p></p>
+                            </div>
+                            <div class="au-task-list js-scrollbar3">
+                                {% for announcement in announcements %}
+                                    {% if forloop.counter < 6 %}
+                                    <div class="au-task__item au-task__item--primary">
+                                        <div class="au-task__item-inner">
+                                            <h5 class="task">
+                                                <a href="#" data-toggle="modal" data-target="#largeModal{{forloop.counter}}">{{announcement.title | truncatechars:50}}</a>
+                                            </h5>
+                                            <span class="time">{{announcement.date}}</span>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="au-task__item au-task__item--primary js-load-item" style="display: none;">
+                                    <div class="au-task__item-inner">
+                                        <h5 class="task">
+                                            <a href="#" data-toggle="modal" data-target="#largeModal{{forloop.counter}}">{{announcement.title | truncatechars:50}}</a>
+                                        </h5>
+                                        <span class="time">{{announcement.date}}</span>
+                                    </div>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            <div class="au-task__footer">
+                                <button class="au-btn au-btn-load js-load-btn">load more</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            {% for announcement in announcements %}
+                <div class="modal fade show" id="largeModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"  style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="largeModalLabel">{{forloop.counter}} : {{announcement.title| capfirst | truncatechars:30 }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="container p-2">
+                                <div class="jumbotron">
+                                    {{announcement.Discription}}
+                                </div>
+                                <div class="date float-right pb-2">
+                                    {{announcement.date}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock main %}

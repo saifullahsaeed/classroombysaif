@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block title %}
+    Virtual Classroom  
+{% endblock title %}
+
+
+<body>
+{% block header %}
+{% include 'header.html' %}
+{% include 'intro.html' %}
+{% endblock header %}
+{% block main %}
+  <main id="main">
+{% include 'featured.html' %}
+{% include 'about.html' %}
+{% include 'services.html' %}
+{% include 'ctoa.html' %}
+{% include 'testimonials.html' %}
+{% include 'team.html' %}
+{% include 'contact.html' %}
+{% include 'footer.html' %}
+{% endblock main %}  
+
+    
+  </main>
+
+ 

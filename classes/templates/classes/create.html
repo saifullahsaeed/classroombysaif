@@ -1,0 +1,110 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block main %}
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        {% include "dashboard/header.html" %}
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+        {% include "dashboard/sidebar.html" %}
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+        {% include "dashboard/header_desktop.html" %}
+            
+            <!-- HEADER DESKTOP-->
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                    {% for fm in form %}
+                    {% if fm.errors %}
+                    <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+                        <span class="badge badge-pill badge-danger">Error</span>
+                        {{fm.errors|striptags}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    {% else %}
+                    {% endif %}
+                    {% endfor %}
+                    
+                    
+                        <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Create class</strong> 
+                                    </div>
+                                    <div class="card-body card-block">
+                                        <form action="{% url 'create_class' %}" method="post" enctype="multipart/form-data" class="form-horizontal" novalidate>
+                                        {% csrf_token %}
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="text-input" class=" form-control-label">Class Name</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    {{form.class_name}}
+                                                    <small class="form-text text-muted">Class Name or Title</small>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="text-input" class=" form-control-label">Student Limit</label>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                     {{form.class_limit}}
+                                                    <small class="form-text text-muted">Student Limit</small>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="textarea-input" class=" form-control-label">Discription</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    {{form.class_Discription}}
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="file-input" class=" form-control-label">Class Image</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                {{form.image}}
+                                                </div>
+                                            </div>
+                                       
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-dot-circle-o"></i> Submit
+                                        </button>
+                                        <button type="reset" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-ban"></i> Reset
+                                        </button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="copyright">
+                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MAIN CONTENT-->
+            <!-- END PAGE CONTAINER-->
+        </div>
+
+    </div>
+
+{% endblock main %}

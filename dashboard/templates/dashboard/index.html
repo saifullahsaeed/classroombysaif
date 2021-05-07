@@ -1,0 +1,291 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block title %}Dashboard ~  {{db.usr_username}} {% endblock title %}
+{% block main %}
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        {% include "dashboard/header.html" %}
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+        {% if url == dashboard %}
+        
+        {% include "dashboard/sidebar.html" %}
+        {% else %}
+        {% endif %}
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+
+            <!-- HEADER DESKTOP-->
+         {% include "dashboard/header_desktop.html" %}
+            
+            <!-- HEADER DESKTOP-->
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid pb-0">
+                        <div class="row">
+                            <div class="col-md-12">
+                            {% if db.usr_account_type == 2 %}
+                            <div class="overview-wrap">
+                                    <h2 class="title-1">Classes</h2>
+                                    <form action="{% url 'create_class' %}">
+                                    <button class="au-btn au-btn-icon au-btn--blue">
+                                        <i class="zmdi zmdi-plus" ></i>Create Class</button></form>
+                                </div>
+                            {% else %}
+                            {% endif %}
+                                
+                            </div>
+                        </div>
+                        {% if messages %}
+					    <div id="message">
+						{% for message in messages %}
+						{% if message.tags %}
+                        <div class="mt-1 sufee-alert alert with-close alert-{{message.tags}} alert-dismissible fade show">
+						<span class="badge badge-pill badge-{{message.tags}}">{{message.tags}}</span>
+						{% endif %}
+                                {{message}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+						{% endfor %}
+						</div>
+					{% endif %}
+                        <div class="container">
+                            {% if db.usr_account_type == 1 %}
+                            {% if empty == 0 %}
+                                <div class="container">
+                                <div class="row p-0 h-75 justify-content-center align-items-center">
+                                    <h1>Not in any Class</h1>
+                                </div>
+                                </div>
+                            {% else %}
+                            <style>
+                            .card-wrapper {
+                            margin: 5% 0;
+                            }
+
+                            /* You can adjust the image size by increasing/decreasing the width, height */
+                            .custom-circle-image {
+                            width: 20vw; /* note i used vw not px for better responsive */
+                            height: 8vw;
+                            }
+
+                            .custom-circle-image img {
+                            object-fit: cover;
+                            width: 100%; /* note i used vw not px for better responsive */
+                            height: 100%;
+                            }
+                            </style>
+                            {% for i in in_classes %}
+                            {% for class in i %}
+                            <!-- Card Start -->
+                                                    
+                            <div class="row py-2">
+                                <div class="col-12 col-sm-10 mx-auto">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col-lg-2 col-4 mx-auto custom-circle-image  text-nowrap text-center px-2">
+                                                        <img class="d-block mx-auto  rounded-circle img-fluid"  src="{{class.class_image.url|default_if_none:'null'}}"  >
+                                                </div>
+                                                <div class="col-lg-5 text-center text-lg-left">
+                                                    <h2 class="d-inline">{{class.class_name|truncatechars:20}}</h2><span class="badge badge-pill badge-success sup small align-top">4</span>
+                                                    <h6> <strong>Teacher: </strong> {{class.class_createdby|truncatechars:10}}</h6>
+                                                    <ul class="list-inline mt-3">
+                                                        <li class="list-inline-item">
+                                                            <button class="btn btn-secondary rounded-circle">
+                                                                <i class="fa fa-ellipsis-v"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <button class="btn btn-secondary" data-toggle="modal" data-target="#mediumModal">
+                                                                 <i class="fa fa-share"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <button class="btn btn-secondary rounded-circle">
+                                                                <i class="fa fa-ellipsis-v"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <form action="{% url 'class_student' class.class_secretkey %}" method="get">
+                                                                <button class="btn btn-success rounded">Get In</button>
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-5 col-6 mx-auto">
+                                                    <div class="row no-gutters text-center justify-content-end align-items-end">
+                                                        <div class="col">
+                                                            <h2>{{class.class_noofstudents}}</h2>
+                                                            <span class="badge badge-pill badge-dark font-weight-normal">Lactures</span>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h2>{{class.class_limit}}</h2>
+                                                            <span class="badge badge-pill badge-dark font-weight-normal">Quizs</span>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h2>{{class.class_createdate|date:"Y"}}</h2>
+                                                            <span class="badge badge-pill badge-dark font-weight-normal">Assignments</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- End of card -->
+                            {% endfor %}
+                            {% endfor %}
+                            {% endif %}
+                            {% else %}
+                            {% if empty == 0 %}
+                            <div class="container h-100">
+                                <div class="row  h-100 justify-content-center align-items-center">
+                                    <h1>No Class Create One</h1>
+                                </div>
+                                </div>
+                            {% else %}
+                            <style>
+                            .card-wrapper {
+                            margin: 5% 0;
+                            }
+
+                            /* You can adjust the image size by increasing/decreasing the width, height */
+                            .custom-circle-image {
+                            width: 20vw; /* note i used vw not px for better responsive */
+                            height: 8vw;
+                            }
+
+                            .custom-circle-image img {
+                            object-fit: cover;
+                            width: 100%; /* note i used vw not px for better responsive */
+                            height: 100%;
+                            }
+                            </style>
+                            {% for class in classes %}
+                            <!-- Card Start -->
+                                                    
+                            <div class="row py-2">
+                                <div class="col-12 col-sm-12 mx-auto">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col-lg-2 col-2 mx-auto text-nowrap text-center px-3">
+                                                        <img class="d-block mx-auto img-fluid"   src="{{class.class_image.url|default_if_none:'null'}}"  >
+                                                </div>
+                                                <div class="col-lg-6 text-center text-lg-left">
+                                                    <h2 class="d-inline">{{class.class_name}}</h2><span class="badge badge-pill badge-success sup small align-top">4</span>
+                                                    <h6> <strong>Created By: </strong> {{class.class_createdby}}</h6>
+                                                    <ul class="list-inline mt-3">
+                                                        <li class="list-inline-item">
+                                                            <button class="btn btn-secondary rounded-circle">
+                                                                <i class="fa fa-ellipsis-v"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <button class="btn btn-secondary" data-toggle="modal" data-target="#mediumModal{{forloop.counter}}">
+                                                                 <i class="fa fa-share"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <button class="btn btn-secondary rounded-circle">
+                                                                <i class="fa fa-ellipsis-v"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                        <form action="{% url 'class_Teacher' class.class_secretkey %}" method="get">
+                                                            <button class="btn btn-success rounded">Admin</button>
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-4 col-6 mx-auto">
+                                                    <div class="row no-gutters text-center justify-content-end align-items-end">
+                                                        <div class="col">
+                                                            <p>{{class.class_cr|truncatechars:10}}</p>
+                                                            <span class="badge badge-pill badge-dark font-weight-normal">CR</span>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h2>{{class.class_noofstudents}}</h2>
+                                                            <span class="badge badge-pill badge-dark font-weight-normal">Students</span>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h2>{{class.class_limit}}</h2>
+                                                            <span class="badge badge-pill badge-dark font-weight-normal">Limit</span>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h2>{{class.class_createdate|date:"Y"}}</h2>
+                                                            <span class="badge badge-pill badge-dark font-weight-normal">Created At</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- End of card -->
+                            {% endfor %}
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="row m-0">
+                            <div class="col">
+                                <div class="copyright">
+                                    <p>Copyright © 2021 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MAIN CONTENT-->
+            <!-- END PAGE CONTAINER-->
+            {% if  db.usr_account_type == 2 %}
+            {% if empty == 1 %}
+            {% for class in classes %}
+             <div class="modal fade" id="mediumModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="mediumModalLabel">Shere With Students</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>
+                                                Shere This link to your students to join the class {{class.class_name}}
+                                            <div class="alert alert-dark" role="alert">
+											http://{{domain}}/dashboard/joinclass/{{base64_username}}/classid={{class.class_secretkey}}
+										        </div>
+                                                
+                                        </div>
+                                        <div class="modal-footer text-align-center">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            {% endif %}
+               
+            {% else %}
+            {% endif %}
+        
+
+    </div>
+
+{% endblock main %}

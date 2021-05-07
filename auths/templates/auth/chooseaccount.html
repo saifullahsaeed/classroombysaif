@@ -1,0 +1,29 @@
+{% extends "auth/base.html" %}
+{% block style %}
+<style>
+body{
+    text-align: center;
+    background-color:#ececed;
+}
+.container .col-example {
+      padding: 1rem;
+      background-color: #33b5e5;
+      border: 2px solid #fff;
+      color: #fff;
+      text-align: center;
+}
+#Heading{
+    margin-top: 30%;
+    font-size: 3em;
+}
+
+</style>
+{% endblock style %}
+{% block main %}
+<body class="text-center d-md-flex flex-column align-content-center m-auto align-items-md-center">
+    <h1 id="Heading" style="margin-top:20%;">Choose account Please</h1>
+    <div class="dropdown border rounded"><button class="btn btn-lg dropdown-toggle text-success border rounded-0 border-success" data-toggle="dropdown" aria-expanded="false" type="button" style="color: rgb(95,254,102);">Choose</button>
+        <div class="dropdown-menu text-center border rounded border-dark"><a class="dropdown-item" href="/auth/choose/student" value="student">Student</a><a class="dropdown-item" href="/auth/choose/teacher" value="teacher">Teacher</a></div>
+    </div>
+
+{% endblock main %}

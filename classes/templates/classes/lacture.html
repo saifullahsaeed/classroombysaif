@@ -1,0 +1,121 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %}{{lacture.title|truncatechars:25}}{% endblock title %}
+{% block css %}
+
+{% endblock css %}
+{% block main %}
+
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        {% include "dashboard/header.html" %}
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+        {% include "dashboard/sidebar_class.html" %}
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+        {% include "dashboard/header_desktop.html" %}
+            
+            <!-- HEADER DESKTOP-->
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+            <div class="row col-12">
+                <div class="column  col-lg-8 col-md-12 col-sm-12" style="">
+                <iframe width="100%" height="600vh" src="https://www.youtube.com/embed/smgxnLvlxVo" title="{{lacture.title}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="column col-lg-4 col-md-12 col-sm-12" style="
+                    padding: 0;
+                    margin: 0;
+                    ">
+                    <div class="row" style="
+                        height: 94%;
+                        padding: 0;
+                        ">
+                        <div class="column col-12 p-0 h-100">
+                            <section class="show_comments p-0 m-3" style="background-color:grey;height:100%;margin-top: 0 !important;/* margin-bottom: 0px !important; */margin-bottom: 1px;">
+                            <div class="container" style="
+                                padding:0;
+                                ">
+                                <div class="comment p-1">
+                                    {% for comment in comments %}
+                                        <div class="card mb-1">
+                                            <div class="card-header p-0 ml-1">
+                                            <span class="text-light" style="background-color:#007bff;font-size:.8em;">{{comment.comment_by}}</span>
+                                                <p class="float-right mr-2" style="font-size:.8em;">{{comment.date}}</p>
+                                            </div>
+                                            <div class="card-body p-1" style="font-size:.9em;color:black;">{{comment.comment}}</div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="row" style="
+                        height: fit-content;
+                        /* padding-top: 10; */
+                        height: 5%;
+                        ">
+                        <div class="column col-12" style="
+                            margin: 0;
+                            ">
+                            <section class="type_comment" style="background-color:black;height: 100%;">
+                            <div class="input-group">
+                                <input type="email" id="input2-group2" name="input2-group2" placeholder="Write A comment" class="form-control">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary" id="comment-submit"><i class="fa fa-comment pr-1"></i>Post</button>
+                                </div>
+                            </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row col-12 pt-5">
+                <div class="column col-12 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="default-tab">
+                                <nav>
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Discription</a>
+                                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Meterial</a>
+                                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Links</a>
+                                    </div>
+                                </nav>
+                                <div class="tab-content pl-3 pt-2 pt-3" id="nav-tabContent">
+                                    <div class="tab-pane fade show active p-3" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                        <p class="jumbotron">
+                                            {{lacture.Discription}}
+                                        </p>
+                                    </div>
+                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                        <p>
+                                            <h1>Under Development</h1>
+                                        </p>
+                                    </div>
+                                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                        <p>
+                                            {{lacture.Related}}
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+
+{% block js %}
+<script src="{% static 'js/comment.js' %}">
+{% endblock js %}

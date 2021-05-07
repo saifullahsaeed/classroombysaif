@@ -1,0 +1,108 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block title %}{{class.class_name}} ~ Assignments{% endblock title %}
+{% block main %}
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        {% include "dashboard/header.html" %}
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+        {% include "dashboard/sidebar_class.html" %}
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+
+            <!-- HEADER DESKTOP-->
+         {% include "dashboard/header_desktop.html" %}
+            
+            <!-- HEADER DESKTOP-->
+            <div class="main-content pl-5 pr-5" style="background-color:#f2f2f2;">
+                <div class="table-responsive table--no-card m-b-30">
+                    <table class="table table-borderless table-striped table-earning">
+                        <thead  class="text-center p-10">
+                            <tr>
+                                <th>No.</th>
+                                <th>Title</th>
+                                <th>Start</th>
+                                <th>Due</th>
+                                <th>File</th>
+                                <th>Upload</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center" >
+                            {% for assignment in assignments %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{assignment.title}}</td>
+                                <td>{{assignment.Start_Date}}</td>
+                                <td>{{assignment.Expires_Date}}</td>
+                                <td><a  href="{{assignment.assignment_file.url}}" target="_blank">Download File</a></td>
+                                <td><button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#largeModal{{forloop.counter}}">Submit</button></td>                  
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% for assignment in assignments %}
+                <div class="modal fade show" id="largeModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"  style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="largeModalLabel">{{forloop.counter}} : {{assignment.title| capfirst | truncatechars:'20' }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            
+                            <form id="upload_assignment" action="{% url 'upload_assignment' %}" method="POST" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                    {% csrf_token %}
+                                    {{assignment_upload.assignment_id}}
+                                    {{assignment_upload.assignment_file}}
+                                </div>
+                                <script>
+                                    var name_object = $('#assignment_id');
+                                    var current_name = name_object.val();
+                                    var new_name = "new_name"
+                                    name_object.attr('value',new_name);
+                                </script>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="Submit" class="btn btn-primary" id="form_submit">Confirm</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock main %}
+{% block js %}
+<script>
+$("#form_submit").click(function(){
+        alert("sadsd");
+        var fd = new FormData();
+        var files = $('#file')[0].files;
+        if(files.length > 0 ){
+           fd.append('file',files[0]);
+
+           $.ajax({
+              url: 'upload.php',
+              type: 'post',
+              data: fd,
+              contentType: false,
+              processData: false,
+              success: function(response){
+                 
+              },
+           });
+        }else{
+           alert("Please select a file.");
+        }
+    });
+</script>
+{% endblock js %}
