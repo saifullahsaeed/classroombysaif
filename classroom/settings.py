@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path 
 import os
+import dj_database_url 
 
+prod_db  =  dj_database_url.config(conn_max_age=500)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -105,13 +107,13 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'classroom',
+        'NAME': 'd30lq4psk39c61',
 
-        'USER': 'postgres',
+        'USER': 'zmrslbmnfaurnf',
 
-        'PASSWORD': 'admin',
+        'PASSWORD': 'e5f1a89a298ecaf9f6332ecc15914ccf9c41fc80e178698aa502dabafaf40534',
 
-        'HOST': 'localhost',
+        'HOST': 'ec2-54-166-167-192.compute-1.amazonaws.com',
 
         'PORT': '5432',
 
@@ -120,6 +122,7 @@ DATABASES = {
 }
 ASGI_APPLICATION = "classroom.asgi.application"
 
+DATABASES['default'].update(prod_db)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -158,7 +161,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/allStatics/'
 STATICFILES_DIRS = [STATIC_DIR, ]
 LOGIN_REDIRECT_URL = 'dashboard'
 MEDIA_ROOT=BASE_DIR/'media'
 MEDIA_URL="/media/"
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
